@@ -10,7 +10,6 @@ public class Keys {
     private BigInteger d;
 
     public Keys() {
-        generateKeys();
     }
 
     public void generateKeys(){

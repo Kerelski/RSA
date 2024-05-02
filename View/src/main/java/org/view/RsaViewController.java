@@ -8,6 +8,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.model.*;
+
+import java.math.BigInteger;
+import java.security.spec.ECField;
 
 public class RsaViewController {
 
@@ -80,6 +84,49 @@ public class RsaViewController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    private Keys keys = new Keys();
+
+    BigInteger[] plainText;
+    BigInteger cipher;
+    public void generateKeys(MouseEvent event){
+        keys.generateKeys();
+        keyE.setText(keys.getE().toString());
+        keyD.setText(keys.getD().toString());
+        keyN.setText(keys.getN().toString());
+
+    }
+
+    public void loadKeys(MouseEvent event) throws Exception {
+        String fileName = keyFileName.getText();
+        FileReader file = new FileReader(fileName);
+        file.readKey();
+        keys.setE(file.getKeys()[0]);
+        keys.setD(file.getKeys()[1]);
+        keys.setN(file.getKeys()[2]);
+        keyE.setText(keys.getE().toString());
+        keyD.setText(keys.getD().toString());
+        keyN.setText(keys.getN().toString());
+
+    }
+
+    public void saveKeys(MouseEvent event)throws Exception{
+        String fileName = keyFileName.getText();
+        FileWriter file = new FileWriter(fileName);
+        BigInteger[] keysToSave = new BigInteger[3];
+        keysToSave[0] = keys.getE();
+        keysToSave[1] = keys.getD();
+        keysToSave[2] = keys.getN();
+        file.writeKeys(keysToSave);
+    }
+
+    public void loadPlainTextFile(MouseEvent e) throws Exception{
+        FileReader file = new FileReader(plainTextFileInput.getText());
+        file.read(keys.getN().bitLength());
+        String text = new String(file.getBytes());
+        plainTextArea.setText(text);
+        plainText = file.getMessage();
+    }
 
     @FXML
     void onExitClick(MouseEvent event) {

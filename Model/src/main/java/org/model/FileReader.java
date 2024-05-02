@@ -1,7 +1,9 @@
 package org.model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -11,6 +13,8 @@ public class FileReader {
     private byte[] bytes;
 
     private BigInteger[] message;
+
+    private BigInteger[] keys = new BigInteger[3];
     private File file;
 
     public FileReader(String path){
@@ -40,6 +44,20 @@ public class FileReader {
 
     }
 
+    public void readKey() throws Exception{
+        try(BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
+            String row;
+            int index = 0;
+            while((row = reader.readLine())!=null){
+                keys[index] = new BigInteger(row);
+                index++;
+            }
+        }catch (IOException e){
+            System.out.println("Blad wczytywania klucza");
+        }
+
+    }
+
     public void setPath(String path) {
         this.path = path;
     }
@@ -50,5 +68,9 @@ public class FileReader {
 
     public BigInteger[] getMessage() {
         return message;
+    }
+
+    public BigInteger[] getKeys() {
+        return keys;
     }
 }

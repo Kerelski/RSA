@@ -42,7 +42,7 @@
 
 <VBox prefHeight="562.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.view.RsaViewController">
     <AnchorPane id="keySection" prefHeight="182.0" prefWidth="691.0">
-        <Button id="keyButton" fx:id="keyButton" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" text="Generuj klucz" />
+        <Button id="keyButton" fx:id="keyButton" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" text="Generuj klucz" onMouseClicked="#generateKeys"/>
         <TextField id="keyE" fx:id="keyE" layoutX="151.0" layoutY="40.0" prefHeight="25.0" prefWidth="500.0" promptText="Klucz heksadecymalnie" />
         <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Klucz publiczny e" wrappingWidth="126.044921875">
             <font>
@@ -55,7 +55,7 @@
                 <Font size="30.0" />
             </font>
         </Text>
-        <Button id="keyLoadFile" fx:id="keyLoadButton" layoutX="593.0" layoutY="138.0" mnemonicParsing="false" text="Wczytaj" />
+        <Button id="keyLoadFile" fx:id="keyLoadButton" layoutX="593.0" layoutY="138.0" mnemonicParsing="false" text="Wczytaj" onMouseClicked="#loadKeys" />
       <Text layoutX="14.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Klucz prywatny d" wrappingWidth="126.044921875">
          <font>
             <Font size="14.0" />
@@ -69,7 +69,7 @@
       </Text>
       <TextField id="keyN" fx:id="keyN" layoutX="151.0" layoutY="99.0" prefHeight="25.0" prefWidth="500.0" promptText="Liczba heksadecymalnie" />
       <TextField id="keyFileName" fx:id="keyFileName" layoutX="320.0" layoutY="138.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku" />
-      <Button id="keySaveFile" fx:id="keySaveFile" layoutX="535.0" layoutY="138.0" mnemonicParsing="false" text="Zapisz" />
+      <Button id="keySaveFile" fx:id="keySaveFile" layoutX="535.0" layoutY="138.0" mnemonicParsing="false" text="Zapisz" onMouseClicked="#saveKeys"/>
     </AnchorPane>
     <AnchorPane id="encryptSection" prefHeight="390.0" prefWidth="691.0">
         <TextArea id="cipherArea" fx:id="cipherArea" layoutX="457.0" layoutY="94.0" prefHeight="200.0" prefWidth="200.0" promptText="Tu podaj szyfrogram" />
@@ -83,7 +83,7 @@
         </Text>
         <TextField id="plainTextFileInput" fx:id="plainTextFileInput" layoutX="31.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z tekstem jawnym" />
         <TextField id="cipherFileInput" fx:id="cipherFileInput" layoutX="457.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z szyfrogramem" />
-        <Button id="plainTextFileButton" fx:id="plainTextFileButton" layoutX="248.0" layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Otwórz" />
+        <Button id="plainTextFileButton" fx:id="plainTextFileButton" layoutX="248.0" layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Otwórz" onMouseClicked="#loadPlainTextFile"/>
         <Button id="cipherFileButton" fx:id="cipherFileButton" layoutX="378.0" layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Otwórz" />
         <TextField id="plainTextSaveInput" fx:id="plainTextSaveInput" layoutX="33.0" layoutY="335.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z tekstem jawnym" />
         <Button id="plainTextSaveButton" fx:id="plainTextSaveButton" layoutX="250.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Zapisz" />
