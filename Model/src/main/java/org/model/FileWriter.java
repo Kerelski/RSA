@@ -13,10 +13,16 @@ public class FileWriter {
 
     }
 
-    public void writeKeys(BigInteger[] keys) throws Exception {
+    public void write(byte[] bytesArray) throws Exception {
+        try(FileOutputStream fis = new FileOutputStream(file)) {
+            fis.write(bytesArray);
+        }
+    }
+
+    public void writeBigInteger(BigInteger[] bigIntegers) throws Exception {
         try(BufferedWriter writer = new BufferedWriter(new java.io.FileWriter(file))) {
-            for(BigInteger key : keys){
-                writer.write(key.toString());
+            for(BigInteger bigInteger : bigIntegers){
+                writer.write(bigInteger.toString());
                 writer.newLine();
             }
         }catch (IOException e){

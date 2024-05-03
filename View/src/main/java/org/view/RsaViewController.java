@@ -11,7 +11,8 @@ import javafx.stage.Stage;
 import org.model.*;
 
 import java.math.BigInteger;
-import java.security.spec.ECField;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RsaViewController {
 
@@ -87,8 +88,9 @@ public class RsaViewController {
 
     private Keys keys = new Keys();
 
-    BigInteger[] plainText;
-    BigInteger cipher;
+    PlainText plainText;
+    BigInteger[] cipher;
+
     public void generateKeys(MouseEvent event){
         keys.generateKeys();
         keyE.setText(keys.getE().toString());
@@ -100,10 +102,10 @@ public class RsaViewController {
     public void loadKeys(MouseEvent event) throws Exception {
         String fileName = keyFileName.getText();
         FileReader file = new FileReader(fileName);
-        file.readKey();
-        keys.setE(file.getKeys()[0]);
-        keys.setD(file.getKeys()[1]);
-        keys.setN(file.getKeys()[2]);
+        file.readBigIntegers();
+        keys.setE(file.getBigIntegers().get(0));
+        keys.setD(file.getBigIntegers().get(1));
+        keys.setN(file.getBigIntegers().get(2));
         keyE.setText(keys.getE().toString());
         keyD.setText(keys.getD().toString());
         keyN.setText(keys.getN().toString());
@@ -117,20 +119,99 @@ public class RsaViewController {
         keysToSave[0] = keys.getE();
         keysToSave[1] = keys.getD();
         keysToSave[2] = keys.getN();
-        file.writeKeys(keysToSave);
+        file.writeBigInteger(keysToSave);
+    }
+
+    public void savePlainText(MouseEvent event) throws Exception {
+        String fileName = plainTextSaveInput.getText();
+        FileWriter file = new FileWriter(fileName);
+        file.write(plainText.getMessageInBytes());
+    }
+
+    public void saveCipher(MouseEvent e) throws Exception {
+        String fileName = cipherSaveInput.getText();
+        FileWriter file = new FileWriter(fileName);
+        file.writeBigInteger(cipher);
+    }
+
+    public void loadCipher(MouseEvent e) throws Exception {
+        String fileName = cipherFileInput.getText();
+        FileReader file = new FileReader(fileName);
+        file.readBigIntegers();
+        cipher = file.getBigIntegers().toArray(new BigInteger[0]);
+        StringBuilder text = new StringBuilder();
+        for(BigInteger bInt : cipher){
+            text.append(bInt);
+        }
+        cipherArea.setText(text.toString());
+    }
+
+    public void loadCipherArea(MouseEvent e){
+        String encryptedText = cipherArea.getText();
+        String[] cipherBlocks = encryptedText.split("\n");
+
+        int length = cipherBlocks.length;
+        BigInteger[] cipherTemp = new BigInteger[length];
+        for(int i = 0; i<length; i++){
+            cipherTemp[i] = new BigInteger(cipherBlocks[i]);
+        }
+        cipher = cipherTemp;
+
     }
 
     public void loadPlainTextFile(MouseEvent e) throws Exception{
-        FileReader file = new FileReader(plainTextFileInput.getText());
-        file.read(keys.getN().bitLength());
-        String text = new String(file.getBytes());
+        FileReader plainTextFile = new FileReader(plainTextFileInput.getText());
+        plainTextFile.read();
+        plainText = new PlainText(plainTextFile.getBytes(), keys.getN().bitLength());
+        String text = new String(plainText.getMessageInBytes());
         plainTextArea.setText(text);
-        plainText = file.getMessage();
+    }
+
+    public void loadPlainTextArea(MouseEvent e){
+        String plaintextInput = plainTextArea.getText();
+        byte[] byteArray = plaintextInput.getBytes();
+        plainText = new PlainText(byteArray, keys.getN().bitLength());
+
+    }
+
+    public void encoding(MouseEvent e){
+        cipher = RSA.encode(plainText.getMessageInBigIntegers(), keys.getE(), keys.getN());
+        StringBuilder text = new StringBuilder();
+        for(BigInteger bInt : cipher){
+            text.append(bInt);
+        }
+        cipherArea.setText(text.toString());
+    }
+
+    public void decoding(MouseEvent e){
+        BigInteger[] bigIntegers = RSA.decode(cipher, keys.getD(), keys.getN());
+
+        byte[] byteArray = bigIntegersToBytes(bigIntegers);
+
+        plainText = new PlainText(byteArray, keys.getN().bitLength());
+        String text = new String(plainText.getMessageInBytes());
+        plainTextArea.setText(text);
     }
 
     @FXML
     void onExitClick(MouseEvent event) {
         Stage stage = (Stage) exit.getScene().getWindow();
         stage.close();
+    }
+
+    private byte[] bigIntegersToBytes(BigInteger[] message){
+        List<Byte> byteList = new ArrayList<>();
+
+        for (BigInteger bigInteger : message) {
+            byte[] bytes = bigInteger.toByteArray();
+            for (byte b : bytes){
+                byteList.add(b);
+            }
+        }
+        byte[] byteArray = new byte[byteList.size()];
+        for (int i = 0; i < byteList.size(); i++) {
+            byteArray[i] = byteList.get(i);
+        }
+        return byteArray;
     }
 }

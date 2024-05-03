@@ -5,16 +5,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileReader {
 
     private String path;
     private byte[] bytes;
 
-    private BigInteger[] message;
-
-    private BigInteger[] keys = new BigInteger[3];
+    private List<BigInteger> bigIntegers = new ArrayList<>();
     private File file;
 
     public FileReader(String path){
@@ -23,34 +22,18 @@ public class FileReader {
         bytes = new byte[(int) file.length()];
     }
 
-    public void read(int nLength) throws Exception {
+    public void read() throws Exception {
         try(FileInputStream fis = new FileInputStream(file)) {
             fis.read(bytes);
-        }
-        int wordLength = (nLength-1)/8;
-        int wordCounter = (int) Math.ceil((double)bytes.length/wordLength) ;
-        message = new BigInteger[wordCounter];
-
-        int startIndex = 0;
-        int endIndex = wordLength;
-        if(endIndex > bytes.length) endIndex = bytes.length;
-        for(int i =0; i<wordCounter; i++){
-            byte[] temp = Arrays.copyOfRange(bytes, startIndex, endIndex);
-            message[i] = new BigInteger(1, temp);
-            startIndex = endIndex;
-            endIndex += wordLength;
-            if(endIndex > bytes.length) endIndex = bytes.length;
         }
 
     }
 
-    public void readKey() throws Exception{
+    public void readBigIntegers() throws Exception{
         try(BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
             String row;
-            int index = 0;
             while((row = reader.readLine())!=null){
-                keys[index] = new BigInteger(row);
-                index++;
+                bigIntegers.add(new BigInteger(row));
             }
         }catch (IOException e){
             System.out.println("Blad wczytywania klucza");
@@ -58,19 +41,11 @@ public class FileReader {
 
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public byte[] getBytes() {
         return bytes;
     }
 
-    public BigInteger[] getMessage() {
-        return message;
-    }
-
-    public BigInteger[] getKeys() {
-        return keys;
+    public List<BigInteger> getBigIntegers() {
+        return bigIntegers;
     }
 }

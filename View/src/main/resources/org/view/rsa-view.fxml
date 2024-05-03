@@ -73,8 +73,8 @@
     </AnchorPane>
     <AnchorPane id="encryptSection" prefHeight="390.0" prefWidth="691.0">
         <TextArea id="cipherArea" fx:id="cipherArea" layoutX="457.0" layoutY="94.0" prefHeight="200.0" prefWidth="200.0" promptText="Tu podaj szyfrogram" />
-        <Button id="encodeButton" fx:id="encodeButton" layoutX="313.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Szyfruj" />
-        <Button id="decodeButton" fx:id="decodeButton" layoutX="313.0" layoutY="182.0" mnemonicParsing="false" text="Deszyfruj" />
+        <Button id="encodeButton" fx:id="encodeButton" layoutX="313.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Szyfruj" onMouseClicked="#encoding"/>
+        <Button id="decodeButton" fx:id="decodeButton" layoutX="313.0" layoutY="182.0" mnemonicParsing="false" text="Deszyfruj" onMouseClicked="#decoding" />
         <TextArea id="plainTextArea" fx:id="plainTextArea" layoutX="33.0" layoutY="94.0" prefHeight="200.0" prefWidth="200.0" promptText="Tu wpisz tekst" />
         <Text layoutX="33.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szyfrowanie / Deszyfrowanie">
             <font>
@@ -84,12 +84,12 @@
         <TextField id="plainTextFileInput" fx:id="plainTextFileInput" layoutX="31.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z tekstem jawnym" />
         <TextField id="cipherFileInput" fx:id="cipherFileInput" layoutX="457.0" layoutY="56.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z szyfrogramem" />
         <Button id="plainTextFileButton" fx:id="plainTextFileButton" layoutX="248.0" layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Otwórz" onMouseClicked="#loadPlainTextFile"/>
-        <Button id="cipherFileButton" fx:id="cipherFileButton" layoutX="378.0" layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Otwórz" />
+        <Button id="cipherFileButton" fx:id="cipherFileButton" layoutX="378.0" layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Otwórz" onMouseClicked="#loadCipher"/>
         <TextField id="plainTextSaveInput" fx:id="plainTextSaveInput" layoutX="33.0" layoutY="335.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z tekstem jawnym" />
-        <Button id="plainTextSaveButton" fx:id="plainTextSaveButton" layoutX="250.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Zapisz" />
+        <Button id="plainTextSaveButton" fx:id="plainTextSaveButton" layoutX="250.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Zapisz" onMouseClicked="#savePlainText"/>
         <TextField id="cipherSaveInput" fx:id="cipherSaveInput" layoutX="457.0" layoutY="335.0" prefHeight="25.0" prefWidth="200.0" promptText="Nazwa pliku z szyfrogramem" />
-        <Button id="cipherSaveButton" fx:id="cipherSaveButton" layoutX="378.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Zapisz" />
-        <Button id="plainTextButton" fx:id="plainTextButton" layoutX="33.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Zatwierdź wpisany tekst" />
-        <Button id="cipherAreaButton" fx:id="cipherAreaButton" layoutX="457.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Zatwierdź wpisany tekst" />
+        <Button id="cipherSaveButton" fx:id="cipherSaveButton" layoutX="378.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" text="Zapisz" onMouseClicked="#saveCipher" />
+        <Button id="plainTextButton" fx:id="plainTextButton" layoutX="33.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Zatwierdź wpisany tekst" onMouseClicked="#loadPlainTextArea"/>
+        <Button id="cipherAreaButton" fx:id="cipherAreaButton" layoutX="457.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Zatwierdź wpisany tekst" onMouseClicked="#loadCipherArea"/>
     </AnchorPane>
 </VBox>
