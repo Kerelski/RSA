@@ -11,7 +11,9 @@ import javafx.stage.Stage;
 import org.model.*;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class RsaViewController {
@@ -162,15 +164,15 @@ public class RsaViewController {
     public void loadPlainTextFile(MouseEvent e) throws Exception{
         FileReader plainTextFile = new FileReader(plainTextFileInput.getText());
         plainTextFile.read();
-        plainText = new PlainText(plainTextFile.getBytes(), keys.getN().bitLength());
-        String text = new String(plainText.getMessageInBytes());
+        plainText = new PlainText(Base64.getEncoder().encode(plainTextFile.getBytes()), keys.getN().bitLength());
+        String text = new String(Base64.getDecoder().decode(plainText.getMessageInBytes()));
         plainTextArea.setText(text);
     }
 
     public void loadPlainTextArea(MouseEvent e){
         String plaintextInput = plainTextArea.getText();
         byte[] byteArray = plaintextInput.getBytes();
-        plainText = new PlainText(byteArray, keys.getN().bitLength());
+        plainText = new PlainText(Base64.getEncoder().encode(byteArray), keys.getN().bitLength());
 
     }
 
@@ -181,6 +183,7 @@ public class RsaViewController {
             text.append(bInt);
         }
         cipherArea.setText(text.toString());
+
     }
 
     public void decoding(MouseEvent e){
@@ -188,7 +191,7 @@ public class RsaViewController {
 
         byte[] byteArray = bigIntegersToBytes(bigIntegers);
 
-        plainText = new PlainText(byteArray, keys.getN().bitLength());
+        plainText = new PlainText(Base64.getDecoder().decode(byteArray), keys.getN().bitLength());
         String text = new String(plainText.getMessageInBytes());
         plainTextArea.setText(text);
     }

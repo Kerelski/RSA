@@ -17,13 +17,13 @@ public class PlainText {
 
         int startIndex = 0;
         int endIndex = wordLength;
-        if(endIndex > message.length) endIndex = message.length;
+        if(endIndex >= message.length) endIndex = message.length;
         for(int i =0; i<wordCounter; i++) {
             byte[] temp = Arrays.copyOfRange(message, startIndex, endIndex);
             messageInBigIntegers[i] = new BigInteger(temp);
             startIndex = endIndex;
             endIndex += wordLength;
-            if (endIndex > message.length) endIndex = message.length;
+            if (endIndex >= message.length) endIndex = message.length;
         }
     }
 
